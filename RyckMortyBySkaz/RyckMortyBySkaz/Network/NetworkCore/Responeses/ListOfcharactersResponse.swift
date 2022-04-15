@@ -17,3 +17,13 @@ struct ListOfcharactersResponse: Responsable {
         charachersArray = values
     }
 }
+
+struct CharacterResponse: Responsable {
+    let characher: CharacterRaw
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let values = try container.decode(CharacterRaw.self)
+        characher = values
+    }
+}

@@ -8,13 +8,15 @@
 import Foundation
 
 struct ResultsRaw: Codable {
-    let results: [CharactersRaw]
+    let results: [CharacterRaw]
 }
 
 
-struct CharactersRaw: Codable {
+struct CharacterRaw: Codable {
     let name: String
+    let status: String
     let species: String
     let gender: String
     let image: String
+    let episode: [String]
 }

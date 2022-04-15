@@ -8,7 +8,8 @@
 import Foundation
 
 protocol StocksServiceProtocol: AnyObject {
-    func fetchListOfCharacters(comletion: @escaping (Swift.Result<[CharactersRaw], Error>) -> Void)
+    func fetchListOfCharacters(comletion: @escaping (Swift.Result<[CharacterRaw], Error>) -> Void)
+    func fetchCharacter(id: Int, comletion: @escaping (Swift.Result<CharacterRaw, Error>) -> Void)
 }
 
 class StocksService {
@@ -16,7 +17,19 @@ class StocksService {
 }
 
 extension StocksService: StocksServiceProtocol {
-    func fetchListOfCharacters(comletion: @escaping (Swift.Result<[CharactersRaw], Error>) -> Void) {
+    func fetchCharacter(id: Int, comletion: @escaping (Result<CharacterRaw, Error>) -> Void) {
+        let metadata = "character/\(id)"
+        network.request(metadata: metadata) { (result: CoreResult<CharacterResponse>) in
+            switch result {
+            case .success(let respone):
+                comletion(.success(respone.characher))
+            case .failure(let error):
+                comletion(.failure(error))
+            }
+        }
+    }
+    
+    func fetchListOfCharacters(comletion: @escaping (Swift.Result<[CharacterRaw], Error>) -> Void) {
         let metadata = "character"
         network.request(metadata: metadata,
                         completion: { (result: CoreResult<ListOfcharactersResponse>) in
@@ -24,8 +37,11 @@ extension StocksService: StocksServiceProtocol {
             case .success(let respones):
                 comletion(.success(respones.charachersArray.results))
             case .failure(let error):
-                print(error)
+                comletion(.failure(error))
             }
         })
     }
+    
+    
+    
 }

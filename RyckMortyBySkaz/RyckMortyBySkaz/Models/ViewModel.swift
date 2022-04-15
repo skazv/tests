@@ -12,6 +12,5 @@ struct CharacterViewModel {
     let name: String
     let species: String
     let gender: String
-    //let image: UIImage
     let imageUrl: String
 }

@@ -24,10 +24,16 @@ class ProfileView: UIView {
         return imageView
     }()
     
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        return activityIndicator
+    }()
+    
     private lazy var nameSurnameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Suren Kazaryan"
+        label.text = "Name"
         label.font = .boldSystemFont(ofSize: 20)
         label.numberOfLines = 1
         return label
@@ -86,8 +92,16 @@ class ProfileView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func updateView(name: String, image: UIImage) {
+    func updateView(name: String, species: String, gender: String, status: String, lastLocation: String) {
         nameSurnameLabel.text = name
+        speciesLabel.text = species
+        genderLabel.text = gender
+        statusLabel.text = status
+        lastLocationLabel.text = lastLocation
+        activityIndicator.startAnimating()
+    }
+    
+    func updateImage(image: UIImage) {
         avatarImageView.image = image
     }
     
@@ -107,6 +121,8 @@ extension ProfileView {
             descriptionLabel
         ])
         
+        avatarImageView.addSubview(activityIndicator)
+        
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
@@ -117,6 +133,9 @@ extension ProfileView {
             avatarImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
             avatarImageView.widthAnchor.constraint(equalToConstant: 100),
             avatarImageView.heightAnchor.constraint(equalToConstant: 100),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: avatarImageView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor),
             
             nameSurnameLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 16),
             nameSurnameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 15),

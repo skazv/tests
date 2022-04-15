@@ -38,7 +38,7 @@ class MainViewController: UIViewController {
         }
     }
     
-    func makeViewModel(charactersRaw: [CharactersRaw]) -> [CharacterViewModel] {
+    func makeViewModel(charactersRaw: [CharacterRaw]) -> [CharacterViewModel] {
         var character: [CharacterViewModel] = []
         
         character = charactersRaw.map({ caracterRaw in
@@ -78,7 +78,6 @@ extension MainViewController: UITableViewDataSource {
         
         let imageLoader = ImageLoader()
         
-        
             if let url = URL(string: model.imageUrl) {
                 imageLoader.loadImage(by: url, completion: { newImage in
                     if let image = newImage {
@@ -93,7 +92,7 @@ extension MainViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigationController?.pushViewController(ProfileController(), animated: true)
+        navigationController?.pushViewController(ProfileController(id: indexPath.row + 1), animated: true)
     }
     
 }
